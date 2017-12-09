@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <!-- jQuery CDN -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- Bootstrap CDN -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  <script>
+    /**
+    * EventHandler
+    *
+    * @author: typoholic01@gmail.com
+    */
+    $(document).ready(function() {
+      document.getElementById("add-row").addEventListener("click", addRow);
+      document.getElementById("delete-row").addEventListener("click", deleteRow);
+      document.getElementById("create-table").addEventListener("click", createTable);
+    });
+
+    /**
+    * DOMPrinter
+    *
+    * @author: typoholic01@gmail.com
+    */
+    function addRow() {
+      $('#column-table > tbody').append(
+      '<tr>'
+        +'<td>'
+          +'<input class="row-name" type="text">'
+        +'</td>'
+        +'<td>'
+          +'<select class="row-is-use">'
+            +'<option value="1">Y</option>'
+            +'<option value="0">N</option>'
+          +'</select>'
+        +'</td>'
+        +'<td>'
+          +'<input class="row-description" type="text">'
+        +'</td>'
+      +'</tr>'
+      );
+    }
+
+    function deleteRow() {
+      $('#column-table > tbody > tr').remove(':last-child');
+    }
+
+    function createTable() {
+      var rowName = $('#column-table .row-name');
+      var rowIsUse = $('#column-table .row-is-use');
+      var columnList = [];
+
+      for (let index = 0; index < rowIsUse.length; index++) {
+        var name = $(rowName)[index].value;
+        var isUse = $(rowIsUse)[index].value;
+        if (isUse == "1") {
+          columnList.push(name);
+        }
+      }
+
+      $('#created-table').html(
+        '<table class="table table-hover">'
+          + '<thead>'
+            + '<tr>'
+            +'</tr>'
+          +'</thead>'
+          +'<tbody>'
+            +'<tr class="info">'
+            +'</tr>'
+            +'<tr class="info">'
+            +'</tr>'
+          +'</tbody>'
+        +'</table>'
+      );
+      
+      for (let index = 0; index < columnList.length; index++) {
+        $('#created-table thead tr').append(
+          '<th>'
+            + columnList[index]
+          + '</th>'
+        );
+        $('#created-table tbody tr').append(
+          '<td>'
+          + '</td>'
+        );
+      }
+    }
+  </script>
+</head>
+<body>
+<div class="container">
+  <!-- BtnList -->
+  <div class="row">
+    <div class="col-sm-6"></div>
+    <div class="col-sm-2"><a href="#" id="add-row">[행 추가]</a></div>
+    <div class="col-sm-2"><a href="#" id="delete-row">[행 삭제]</a></div>
+    <div class="col-sm-2"><a href="#" id="create-table">[반영]</a></div>
+  </div>
+  <!-- ColumnGenerator -->
+  <div class="row">
+    <div class="col-xs-12">
+      <table id="column-table" class="table table-hover">
+        <colgroup>
+          <col class="col-sm-3">
+          <col class="col-sm-2">
+          <col class="col-sm-3">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>이름</th>
+            <th>사용여부</th>
+            <th>설명</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input class="row-name" type="text"></td>
+            <td>
+              <select class="row-is-use">
+                <option value="1">Y</option>
+                <option value="0">N</option>
+              </select>
+            </td>
+            <td><input class="row-description" type="text"></td>
+          </tr>
+        </tbody>
+      </table> 
+    </div>
+  </div>
+  <!-- ResultTable -->
+  <div class="row">
+    <div class="col-xs-12">
+        [목록]
+    </div>
+  </div>
+  <div class="row">
+    <div id="created-table" class="col-xs-12">
+    </div>
+  </div>
+</div>
+</body>
+</html>
